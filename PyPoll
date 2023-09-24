@@ -1,1 +1,63 @@
+import os
+import csv
 
+csvpath = os.path.join('Resources', 'election_data.csv')
+
+#this sets the variables to 0
+total_votes = 0
+candidate_list = []
+candidate_dict = {}
+winner_votes = 0 
+winner = ""
+
+#this starts the analysis on row 2 after the header
+with open(csvpath) as csvfile:
+    csvreader = csv.reader(csvfile, delimiter=',')
+    csv_header = next(csvreader)
+   
+    #this is the loop for adding up the total votes for each candidate
+    for row in csvreader:
+        total_votes = total_votes + 1
+        candidate_name = row[2]
+        
+        # this adds the candidate to the list and dictionary if they are not already there
+        if candidate_name not in candidate_list:
+            candidate_list.append(candidate_name)
+            candidate_dict[candidate_name] = 0
+        # this adds a vote to the candidate's total
+        candidate_dict[candidate_name] = candidate_dict[candidate_name] + 1
+
+#this is the output and puts the results into the output.txt file
+output = f"""
+Election Results
+-------------------------
+Total Votes: {total_votes}
+-------------------------
+"""
+#this prints the output to the terminal and writes it to the output.txt file
+with open("Analysis/output.txt", "w") as text_file:
+    print(output)
+    text_file.write(output)
+    
+    #this is the loop for printing the results for each candidate
+    for candidate in candidate_list:
+        candidate_votes = candidate_dict[candidate]
+        candidate_percent = candidate_votes / total_votes * 100
+        output = f"{candidate}: {round(candidate_percent, 3)}% ({candidate_votes})\n"
+        print(output)
+        text_file.write(output)
+       
+        # this is the if statement for determining the winner
+        if candidate_votes > winner_votes:
+            winner_votes = candidate_votes
+            winner = candidate
+   
+    # this prints the winner
+    output = (
+        f"-------------------------\n"
+        f"Winner: {winner}\n"
+        f"-------------------------\n")
+    #this prints the output to the terminal and writes it to the output.txt file
+
+    print(output)
+    text_file.write(output)
