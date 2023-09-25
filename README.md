@@ -15,3 +15,13 @@ finally f statement to print the output.txt file.
 
 #PyPoll
 
+Start the same with unzipping files and import os and csv
+create the path
+
+the variables were total votes set to 0, candidate list, candidate dict, winner vote set to 0, and the winner 
+
+use with open to skip the header
+
+use for loop counting the candidate name and adding 1 vote each time their name comes up
+
+if statement to add candidate to list and directory 
